@@ -1,6 +1,4 @@
-import generateSSTV.generateSSTV as generateSSTV
-import ImageManipulator.ImageManipulator as ImageManipulator
-import spectrum.spectrum as spectrum
+import generateSSTV, ImageManipulator, spectrum
 import argparse as ap
 import os
 
@@ -17,21 +15,21 @@ if args.image and args.mode:
     if args.sharpen or args.contrast:
         if args.sharpen and args.contrast:
             #generate sharpened and high contrast image.
-            img = ImageManipulator.manipulate(args.image)
+            img = ImageManipulator.ImageManipulator.manipulate(args.image)
         elif args.sharpen and not args.contrast:
-            img = ImageManipulator.sharpen(args.image)
+            img = ImageManipulator.ImageManipulator.sharpen(args.image)
         elif args.contrast and not args.sharpen:
-            img = ImageManipulator.equaliseColored(args.image)
+            img = ImageManipulator.ImageManipulator.equaliseColored(args.image)
 
         # save the manipulated image temporarily.
-        ImageManipulator.save(img, args.image+"temp_image.jpg")
+        ImageManipulator.ImageManipulator.save(img, args.image+"temp_image.jpg")
 
         if not args.nosstv:
             # Now generate SSTV
             if args.mode == "PD240":
-                generateSSTV.generatePD240(args.image+"temp_image.jpg")
+                generateSSTV.generateSSTV.generatePD240(args.image+"temp_image.jpg")
             elif args.mode == "Robot36":
-                generateSSTV.generateRobot36(args.image+"temp_image.jpg")
+                generateSSTV.generateSSTV.generateRobot36(args.image+"temp_image.jpg")
             else:
                 print("Wrong arguments for --mode.")
             
@@ -42,9 +40,9 @@ if args.image and args.mode:
         if not args.nosstv:
             # Now generate SSTV
             if args.mode == "PD240":
-                generateSSTV.generatePD240(args.image)
+                generateSSTV.generateSSTV.generatePD240(args.image)
             elif args.mode == "Robot36":
-                generateSSTV.generateRobot36(args.image)
+                generateSSTV.generateSSTV.generateRobot36(args.image)
             else:
                 print("Wrong arguments for --mode.")
 

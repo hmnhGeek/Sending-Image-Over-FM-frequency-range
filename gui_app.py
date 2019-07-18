@@ -1,16 +1,17 @@
-from Tkinter import *
-import ttk
-from tkFileDialog import *
-from ImageManipulator import ImageManipulator
-import matplotlib.pyplot as plt 
-from PIL import Image, ImageTk
+from tkinter import *
+import tkinter.ttk as ttk
+from tkinter.filedialog import *
+import ImageManipulator.ImageManipulator as ImageManipulator
+import matplotlib.pyplot as plt
+import PIL.Image as Image
+from PIL import ImageTk
 import numpy as np
 import cv2
 import os
-import tkMessageBox
+from tkinter import messagebox as tkMessageBox
 # from ImgFit import ImgFit
-from spectrum import spectrum
-from imageFit import imageFit
+import spectrum.spectrum as spectrum
+import imageFit.imageFit as imageFit
 import scipy.misc
 
 buttonBackground = "#D0D3D4"
@@ -54,15 +55,15 @@ class fftPage(Page):
     	scipy.misc.imsave(address_to_loc.name, mag)
 
     def updatefft(self):
-		best_width = 400
-		best_height = 300
+        best_width = 400
+        best_height = 300
 
-		mag, phase = spectrum.completeFourier(currentImage)
+        mag, phase = spectrum.completeFourier(currentImage)
 
-		icon1 = imageFit.fit(Image.fromarray(mag), best_height, best_width)
+        icon1 = imageFit.fit(Image.fromarray(mag), best_height, best_width)
 
-		self.magnitude.image=icon1
-		self.magnitude.configure(image=icon1)
+        self.magnitude.image=icon1
+        self.magnitude.configure(image=icon1)
 
 class SSTVGenPage(Page):
 	def __init__(self, *args, **kwargs):
@@ -121,26 +122,26 @@ class SSTVGenPage(Page):
 		self.ImageLabel.configure(image=icon)
 
 	def submit(self):
-		print "[SSTV GUI]: Working on "+currentImage
+		print("[SSTV GUI]: Working on "+currentImage)
 		if self.var.get() == 1:
 			if self.CheckVar1.get() == 1 and self.CheckVar2.get() == 0:
-				os.system('python sstv.py --mode "Robot36" "'+currentImage+'" --sharpen')
+				os.system('python3 sstv.py --mode "Robot36" "'+currentImage+'" --sharpen')
 			elif self.CheckVar1.get() == 0 and self.CheckVar2.get() == 1:
-				os.system('python sstv.py --mode "Robot36" "'+currentImage+'" --contrast')
+				os.system('python3 sstv.py --mode "Robot36" "'+currentImage+'" --contrast')
 			elif self.CheckVar1.get() == 1 and self.CheckVar2.get() ==1:
-				os.system('python sstv.py --mode "Robot36" "'+currentImage+'" --sharpen --contrast')
+				os.system('python3 sstv.py --mode "Robot36" "'+currentImage+'" --sharpen --contrast')
 			else:
-				os.system('python sstv.py --mode "Robot36" "'+currentImage+'"')
+				os.system('python3 sstv.py --mode "Robot36" "'+currentImage+'"')
 
 		else:
 			if self.CheckVar1.get() == 1 and self.CheckVar2.get() == 0:
-				os.system('python sstv.py --mode "PD240" "'+currentImage+'" --sharpen')
+				os.system('python3 sstv.py --mode "PD240" "'+currentImage+'" --sharpen')
 			elif self.CheckVar1.get() == 0 and self.CheckVar2.get() == 1:
-				os.system('python sstv.py --mode "PD240" "'+currentImage+'" --contrast')
+				os.system('python3 sstv.py --mode "PD240" "'+currentImage+'" --contrast')
 			elif self.CheckVar1.get() == 1 and self.CheckVar2.get() ==1:
-				os.system('python sstv.py --mode "PD240" "'+currentImage+'" --sharpen --contrast')
+				os.system('python3 sstv.py --mode "PD240" "'+currentImage+'" --sharpen --contrast')
 			else:
-				os.system('python sstv.py --mode "PD240" "'+currentImage+'"')
+				os.system('python3 sstv.py --mode "PD240" "'+currentImage+'"')
 
 		tkMessageBox.showinfo("SSTV GUI!", "Process completed!")
 
